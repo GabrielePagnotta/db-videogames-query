@@ -105,6 +105,63 @@ FROM reviews
 GROUP BY Videogame_id
 
 
+/*JOIN*/
+
+
+/*1- Selezionare i dati di tutti giocatori che hanno scritto almeno una recensione,
+mostrandoli una sola volta (996)*/
+
+SELECT DISTINCT players.*
+FROM players
+INNER JOIN reviews 
+ON players.id=reviews.player_id
+WHERE players.id IS NOT NULL
+
+/*2- Sezionare tutti i videogame dei tornei tenuti nel 2016, mostrandoli una sola volta (226)*/
+
+SELECT DISTINCT tournaments.year,videogames.name
+FROM tournament_videogame
+JOIN tournaments
+ON tournament_videogame.tournament_id = tournaments.id
+JOIN videogames
+ON tournament_videogame.videogame_id = videogames.id
+WHERE tournaments.year = 2016
+
+/*3- Mostrare le categorie di ogni videogioco (1718)*/
+
+SELECT categories.name,videogames.name
+FROM category_videogame
+JOIN categories
+ON category_videogame.category_id = categories.id
+JOIN videogames
+ON category_videogame.videogame_id = videogames.id
+
+/*4- Selezionare i dati di tutte le software house che hanno rilasciato almeno un gioco dopo il 2020,*/
+/*mostrandoli una sola volta (6)*/
+
+SELECT DISTINCT software_houses.id,software_houses.name
+FROM videogames
+JOIN software_houses
+ON software_houses.id = videogames.software_house_id
+WHERE YEAR(videogames.release_date) >= 2020
+
+/*5- Selezionare i premi ricevuti da ogni software house per i videogiochi che ha prodotto (55)*/
+SELECT DISTINCT videogames.name,awards.name
+FROM award_videogame
+JOIN videogames
+ON videogames.id = award_videogame.videogame_id
+JOIN awards
+ON awards.id = award_videogame.award_id
+
+
+
+
+
+
+
+
+
+
 
 
 
